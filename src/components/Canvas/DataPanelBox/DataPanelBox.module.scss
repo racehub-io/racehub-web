@@ -1,0 +1,91 @@
+@import "styles/colors.scss";
+
+.dataPanelBox {
+  border-radius: 10px;
+  background-color: $color-blue1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+  // overflow-x: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  height: 100%;
+  width: 100%;
+}
+
+/*
+.dataPanelBox:active {
+  opacity: 0.9;
+}
+*/
+
+.title {
+  color: $color-white;
+  top: 15px;
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: default;
+  position: absolute;
+  user-select: none;
+}
+
+.content {
+  background-color: $color-blue1;
+  // overflow-x: scroll;
+  width: 100%;
+  margin: 0px 5px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  height: 100%;
+}
+
+.content:focus {
+  outline: none;
+}
+
+.boxIsFocused {
+  outline: none;
+}
+
+.titleHeader {
+  margin-top: 45px;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.dataPanelBox::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollInput {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.showScrollInput {
+  opacity: 1;
+}
+
+.keyboardKey {
+  cursor: default;
+  border-radius: 3px;
+  border: 1px solid #b4b4b4;
+  background-color: rgba(238, 238, 238, 0);
+  color: rgba(255, 255, 255, 0.7);
+  display: inline-block;
+  font-size: 0.85em;
+  font-weight: 700;
+  line-height: 1;
+  padding: 2px 4px;
+  white-space: nowrap;
+  margin: 0 4px;
+}

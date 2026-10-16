@@ -1,0 +1,35 @@
+@import "styles/colors.scss";
+
+.modal {
+  width: 400px;
+  height: 550px;
+  position: fixed;
+  z-index: 100;
+  left: calc(50% - 400px / 2);
+  top: calc(50% - 550px / 2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $color-blue2;
+  border-radius: 10px;
+  flex-direction: column;
+}
+
+.background {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 2;
+}
+
+.closeButton {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  margin-bottom: 15px;
+  color: white;
+  cursor: pointer;
+}

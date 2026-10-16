@@ -1,0 +1,89 @@
+@import "styles/colors.scss";
+
+$button-size: 40px;
+
+.mapPanelWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  .mapPoint {
+    border-radius: 50%;
+    position: absolute;
+    transition: top 0.1s, left 0.1s;
+  }
+
+  .button {
+    padding: $button-size * 0.3;
+    height: $button-size * 0.4;
+    background-color: $color-blue2;
+    position: absolute;
+
+    .icon {
+      width: $button-size * 0.4;
+      height: $button-size * 0.4;
+      color: white;
+    }
+  }
+
+  .button:hover {
+    background-color: $color-blue3;
+  }
+
+  .zoomWrapper,
+  .moveWrapper {
+    display: flex;
+    flex-direction: column;
+    width: $button-size;
+    position: fixed;
+    cursor: pointer;
+  }
+
+  .zoomWrapper {
+    width: $button-size;
+    height: $button-size * 2;
+    bottom: 5px;
+    left: 5px;
+
+    .zoomInButton {
+      border-radius: 10px 10px 0 0;
+    }
+
+    .zoomOutButton {
+      border-radius: 0 0 10px 10px;
+      bottom: 0;
+    }
+  }
+
+  .moveWrapper {
+    bottom: 5px;
+    right: 5px;
+    width: $button-size * 3;
+    height: $button-size * 3;
+
+    .moveUpButton {
+      top: 0;
+      left: calc(50% - #{$button-size / 2});
+      border-radius: 10px 10px 0 0;
+    }
+
+    .moveDownButton {
+      top: calc(100% - #{$button-size});
+      left: calc(50% - #{$button-size / 2});
+      border-radius: 0 0 10px 10px;
+    }
+
+    .moveRightButton {
+      left: calc(100% - #{$button-size});
+      top: calc(50% - #{$button-size / 2});
+      border-radius: 0 10px 10px 0;
+    }
+
+    .moveLeftButton {
+      left: 0;
+      top: calc(50% - #{$button-size / 2});
+      border-radius: 10px 0 0 10px;
+    }
+  }
+}

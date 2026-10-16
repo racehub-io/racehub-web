@@ -1,0 +1,150 @@
+@import "styles/colors.scss";
+
+@keyframes ButtonBackgroundAnimation {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 0%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.navbar {
+  cursor: default;
+  height: 60px;
+  width: 100vw;
+  position: fixed;
+  z-index: 1;
+  font-family: "Kanit";
+
+  .logo {
+    width: 30px;
+    height: 30px;
+  }
+
+  .background {
+    width: 100%;
+    height: 100%;
+    background-color: $color-blue2;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  .buttons {
+    position: absolute;
+    top: calc(50% - 18px);
+    right: 2%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .regularButton {
+      color: #a4a5a6;
+      font-weight: 500;
+      text-decoration: none;
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: color 0.1s ease-in-out;
+    }
+
+    .actionButton {
+      color: #ffffff;
+      font-weight: 500;
+      text-decoration: none;
+      background: linear-gradient(325deg, $color-blue1 -75%, $color-green 150%);
+      border-radius: 10px;
+      padding: 6px 14px;
+      cursor: pointer;
+      height: 24px;
+      transition: transform 0.2s;
+      margin-left: 10px;
+    }
+
+    .colorVariant {
+      background: linear-gradient(
+        325deg,
+        $color-blue1 -75%,
+        $color-green2 150%
+      );
+    }
+
+    .userButton {
+      margin-left: 15px;
+      color: #ffffff;
+      font-weight: 500;
+      height: 24px;
+      text-decoration: none;
+      background: linear-gradient(100deg, #191b1f -75%, #212c45 150%);
+      // background: linear-gradient(
+      //   100deg,
+      //   #191b1f -75%,
+      //   #212c45 60%,
+      //   $color-orange 140%
+      // );
+      background-size: 250% 100%;
+      border: 2px solid #343740;
+      color: white;
+      border-radius: 10px;
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      justify-content: center;
+      font-size: 16px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .profilePicture {
+        width: 18px;
+        height: 18px;
+        margin-left: 10px;
+        border-radius: 50%;
+      }
+    }
+
+    .userButton:hover {
+      transform: scale(1.02);
+      // animation: ButtonBackgroundAnimation 7s ease infinite;
+      // -webkit-text-fill-color: transparent;
+      // background: linear-gradient(
+      //   325deg,
+      //   #212c45 -75%,
+      //   #191b1f,
+      //   $color-orange 150%
+      // );
+      // -webkit-animation: ButtonBackgroundAnimation 7s ease infinite;
+      // -moz-animation: ButtonBackgroundAnimation 7s ease infinite;
+      // -o-animation: ButtonBackgroundAnimation 7s ease infinite;
+    }
+
+    .regularButton:hover {
+      color: #ffffff;
+    }
+
+    .actionButton:hover {
+      transform: scale(1.02);
+    }
+  }
+
+  .solidBackground {
+    opacity: 0.9;
+  }
+
+  .raceHub {
+    display: flex;
+    align-items: center;
+    color: $color-white;
+    left: 5%;
+    position: absolute;
+    top: calc(50% - 14px);
+
+    .title {
+      letter-spacing: 1px;
+      font-size: 20px;
+      margin-left: 15px;
+    }
+  }
+}
