@@ -1,0 +1,5 @@
+
+F1 24 and F1 25 recorded test packets in tests/recordings are adapted from
+z0mt3c/f1-telemetry-client, commit 2271a9b1767165fe4b2c2fcdfdd51869278b6c79,
+through racehub-io/f1-telemetry-client 0.3.0. They retain the MIT License.
+The full notice is in tests/recordings/LICENSE.

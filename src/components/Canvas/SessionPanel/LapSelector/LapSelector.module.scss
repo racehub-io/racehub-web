@@ -1,4 +1,4 @@
-@import "styles/colors.scss";
+@use "styles/colors.scss" as *;
 
 .lapWrapper {
   display: flex;
@@ -76,4 +76,16 @@
   .selectedPrimaryButton {
     border: 1px solid white;
   }
+}
+
+.localLap { margin: 12px 0; }
+.selectLap, .selectedLap {
+  width: 100%; padding: 10px; color: #eef2ff; background: #141a30;
+  border: 1px solid #5b6681; border-radius: 4px; text-align: left; cursor: pointer;
+  span, strong { display: block; margin: 3px 0; }
+}
+.selectedLap { border-color: #67e8b1; }
+.lapControls {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 6px;
+  label { display: flex; align-items: center; gap: 4px; }
 }

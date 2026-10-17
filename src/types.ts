@@ -1,4 +1,3 @@
-// note: this is firestore's information!
 export interface User {
   displayName: string;
   email: string;
@@ -7,6 +6,12 @@ export interface User {
 }
 
 export interface Lap {
+  lapNumber?: number;
+  lapTime?: number;
+  rowCount?: number;
+  sector1Time?: number;
+  sector2Time?: number;
+  sector3Time?: number;
   endTime: number;
   isComplete: boolean;
   isInLap: boolean;
@@ -38,6 +43,9 @@ export interface Participant {
 }
 
 export interface Session {
+  name?: string;
+  simulator?: "f1" | "iracing" | "rfactor2";
+  localLaps?: Lap[];
   airTemperature: number;
   fileCreated: Date;
   lapIds: string[];

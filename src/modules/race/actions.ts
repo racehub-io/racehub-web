@@ -1,5 +1,4 @@
 import { action } from "typesafe-actions";
-import { Session } from "../../types";
 
 export const FETCH_SESSION_REQUEST = "Fetch Session Request";
 export const FETCH_SESSION_SUCCESS = "Fetch Session Success";

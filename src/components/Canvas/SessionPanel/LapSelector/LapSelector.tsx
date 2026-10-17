@@ -1,124 +1,46 @@
-import React, { useState } from "react";
-import { ColorChangeHandler, GithubPicker } from "react-color";
-import classnames from "classnames";
-import {
-  SELECT_COLOR,
-  SELECT_PRIMARY_LAP,
-  TRIGGER_LAP_SELECTION,
-} from "../../../../modules/race/actions";
+import React from "react";
+import { SELECT_COLOR, SELECT_PRIMARY_LAP, TRIGGER_LAP_SELECTION } from "../../../../modules/race/actions";
 import { useDispatch, useStore } from "../../../../modules/context";
-import styles from "./LapSelector.module.scss";
 import { Props } from "./LapSelector.types";
+import styles from "./LapSelector.module.scss";
 
-function millisToMinutesAndSeconds(time: number) {
-  const minutes = Math.floor(time / 60);
-  const s = Number(time % 60);
-  const seconds = Number(s.toFixed(0));
-  const milliseconds = s.toFixed(3).split(".")[1];
-
-  return (
-    minutes + ":" + (seconds < 10 ? "0" : "") + seconds + "." + milliseconds
-  );
+function duration(seconds: number) {
+  if (!Number.isFinite(seconds) || seconds <= 0) return "Time not recorded";
+  const millis = Math.round(seconds * 1000);
+  return `${Math.floor(millis / 60000)}:${String(Math.floor(millis / 1000) % 60).padStart(2, "0")}.${String(millis % 1000).padStart(3, "0")}`;
 }
 
-export function LapSelector(props: Props) {
-  const [colorPickerOpen, setColorPickerOpen] = useState(false);
-  const { dispatch } = useDispatch();
+export function LapSelector({ lap, lapNumber }: Props) {
   const { store } = useStore();
-  const { selectedLaps, selectedLapsColors, primaryLapId } = store;
-  const { lap, lapNumber } = props;
-
-  const lapTime = lap.endTime ? (lap.endTime - lap.startTime) * 1000 : 0;
-
-  const handleSelectLap = async () => {
-    dispatch({
-      type: TRIGGER_LAP_SELECTION,
-      lap,
-    });
-  };
-
-  const handleSelectPrimaryLap = () => {
-    dispatch({
-      type: SELECT_PRIMARY_LAP,
-      primaryLapId: lap.lapId,
-    });
-  };
-
-  const handleChangeComplete = (color: any) => {
-    dispatch({ type: SELECT_COLOR, lapId: lap.lapId, color: color.hex });
-  };
-
-  const handleColorPicker = () => {
-    setColorPickerOpen((prevValue) => !prevValue);
-  };
-
-  const isLapSelected = !!selectedLaps[lap.lapId];
-
-  const lapIncomplete = lapTime ? `` : `${styles.lapIncomplete}`;
-  const lapClasses = `${styles.lap} ${lapIncomplete}`
-
+  const { dispatch } = useDispatch();
+  const selected = !!store.selectedLaps[lap.lapId];
+  const name = lap.participant?.name || "Driver not recorded";
+  const lapLabel = lapNumber === undefined ? "Lap number not recorded" : `Lap ${lapNumber}`;
+  const label = `${name}, ${lapLabel.toLowerCase()}`;
   return (
-    <div className={styles.lapWrapper}>
-      <div className={lapClasses} onClick={handleSelectLap}>
-        <div
-          className={styles.status}
-          style={{
-            backgroundColor: isLapSelected
-              ? selectedLapsColors[lap.lapId]
-              : "#cacaca20",
-          }}
-        />
-        <div className={styles.lapInfo}>
-          Lap {lapNumber}
-          <span className={styles.lapTime}>
-            {lapTime ? millisToMinutesAndSeconds(lapTime / 1000) : 'Incomplete'}
-          </span>
-          {lap.participant && (
-            <span className={styles.driverName}>
-              {lap.participant.firstName[0]}. {lap.participant.lastName} ({lap.participant.name}) #{lap.participant.raceNumber}
-            </span>
-          )}
-        </div>
-      </div>{" "}
-      {isLapSelected && (
-        <>
-          <div
-            onClick={handleSelectPrimaryLap}
-            className={classnames(
-              styles.primaryButton,
-              lap.lapId === primaryLapId && styles.selectedPrimaryButton
-            )}
-          >
-            P
-          </div>
-          <div
-            onClick={handleColorPicker}
-            className={classnames(
-              styles.primaryButton,
-              colorPickerOpen && styles.selectedPrimaryButton,
-              styles.colorButton
-            )}
-          >
-            C
-            {colorPickerOpen && (
-              <div
-                style={{
-                  top: "30px",
-                  right: "-8px",
-                  position: "absolute",
-                  zIndex: 1,
-                }}
-              >
-                <GithubPicker
-                  onChangeComplete={handleChangeComplete}
-                  width="100px"
-                  triangle="top-right"
-                />
-              </div>
-            )}
-          </div>
-        </>
-      )}
+    <div className={styles.localLap}>
+      <button type="button" aria-pressed={selected} aria-label={`Select ${label}`}
+        className={selected ? styles.selectedLap : styles.selectLap}
+        onClick={() => dispatch({ type: TRIGGER_LAP_SELECTION, lap })}>
+        <span>{lapLabel} - {name}</span>
+        <strong>{!lap.isComplete && "Recorded part: "}{duration(lap.isComplete && lap.lapTime !== undefined ? lap.lapTime / 1000 : lap.endTime - lap.startTime)}</strong>
+        {[lap.sector1Time, lap.sector2Time, lap.sector3Time].some(value => value !== undefined) &&
+          <span>{[lap.sector1Time, lap.sector2Time, lap.sector3Time].map((value, index) =>
+            `S${index + 1}: ${value === undefined ? "not recorded" : duration(value / 1000)}`).join(" · ")}</span>}
+        {!lap.isComplete && <span>Incomplete</span>}
+        {!lap.isValid && <span>Invalid</span>}
+        {lap.isInLap && <span>In lap</span>}
+        {lap.isOutLap && <span>Out lap</span>}
+      </button>
+      {selected && <div className={styles.lapControls}>
+        <button type="button" aria-pressed={store.primaryLapId === lap.lapId}
+          onClick={() => dispatch({ type: SELECT_PRIMARY_LAP, primaryLapId: lap.lapId })}>
+          {store.primaryLapId === lap.lapId ? "Reference lap" : "Use as reference"}
+        </button>
+        <label>Colour <input type="color" aria-label={`Colour for ${label}`}
+          value={store.selectedLapsColors[lap.lapId] || "#67e8b1"}
+          onChange={e => dispatch({ type: SELECT_COLOR, lapId: lap.lapId, color: e.target.value })} /></label>
+      </div>}
     </div>
   );
 }

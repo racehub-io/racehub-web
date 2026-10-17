@@ -1,3 +1,1 @@
-import LapSelector from "./LapSelector.container";
-
-export { LapSelector };
+export { LapSelector } from "./LapSelector";
