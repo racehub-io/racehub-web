@@ -1,53 +1,27 @@
-@import "styles/colors.scss";
-
-.lineChartWrapper {
-  cursor: pointer;
-}
-
-.rowName {
-  fill: $color-white;
-}
-
-.tooltipData {
-}
-
-.tooltipDataWrapper {
+.panel {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-top: 5px;
-}
-
-.tooltipDataColor {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  margin-right: 5px;
-}
-
-.loadLapMessage {
-  cursor: default;
-  opacity: 0.75;
-  width: 250px;
-  height: 100px;
-  color: white;
-  display: flex;
-  font-family: "Kanit";
-  position: absolute;
-  text-align: center;
-  top: calc(50% - 30px);
-  left: calc(50% - 125px);
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-
-  .icon {
-    width: 35px;
-    height: 35px;
-    margin-bottom: 15px;
-  }
+  height: 100%;
+  min-height: 100px;
+  color: white;
 }
 
-.brushLapMessage {
-  top: calc(50% - 50px);
+.graph { flex: 1; min-height: 70px; }
+.axis {
+  fill: #a9b8d2;
+  font: 10px sans-serif;
+  line { stroke: #29334a; }
 }
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  font-size: 12px;
+  input { width: 70px; margin-left: 4px; }
+  label { max-width: 100%; }
+  select { max-width: min(100%, 300px); margin-left: 6px; padding: 3px; color: white; background: #1b2337; border: 1px solid #7d8ca7; }
+}
+.legend { display: flex; flex-wrap: wrap; gap: 8px 18px; padding: 2px 10px; font-size: 11px; }
+.empty { padding: 16px; color: #c1cbe0; }

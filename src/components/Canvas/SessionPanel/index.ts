@@ -1,3 +1,1 @@
-import SessionPanel from "./SessionPanel.container";
-
-export { SessionPanel };
+export { SessionPanel } from "./SessionPanel";

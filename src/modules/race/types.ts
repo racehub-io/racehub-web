@@ -1,4 +1,3 @@
-import { Participant } from "../../components/Canvas/Explorer/Explorer.types";
 import {
   FetchUserSuccess,
   FetchSessionSuccess,

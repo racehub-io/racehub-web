@@ -1,128 +1,16 @@
 .recorderWrapper {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  height: 100%;
-  align-items: center;
+  padding: 12px 16px; color: #eef2ff; line-height: 1.5;
+  h2 { margin: 0 0 8px; font-size: 20px; }
+  p { margin: 8px 0; }
+  > label { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0; }
+  input, select, button { font: inherit; padding: 6px 9px; border-radius: 4px; }
+  input, select { background: #101827; color: #eef2ff; border: 1px solid #697693; max-width: 100%; }
+  button { background: #1d3242; color: #d8ffee; border: 1px solid #63869a; cursor: pointer; }
+  button:disabled { opacity: .55; cursor: default; }
+  :focus-visible { outline: 2px solid #67e8b1; outline-offset: 3px; }
 }
-
-.form {
-  position: relative;
-  display: flex;
-  width: calc(50%);
-  flex-direction: column;
-  color: white;
-  justify-content: center;
-}
-
-.udpForm {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-}
-
-.labelWrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  margin-bottom: 10px;
-  white-space: nowrap;
-}
-
-.toggleButton {
-  color: #00d78f;
-  margin-left: 10px;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.errorMessage {
-  color: #ee6c4d;
-  position: absolute;
-  font-size: 11px;
-  bottom: 45px;
-}
-
-.toggleButtonDisabled {
-  color: white;
-  cursor: default;
-}
-
-.forwardingSection {
-  display: flex;
-  flex-direction: row;
-}
-
-.addressSection {
-  width: 70%;
-  margin-right: 5%;
-}
-
-.portSection {
-  width: 25%;
-}
-
-.input {
-  font-size: 16px;
-  margin-bottom: 10px;
-  outline: none;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 3px;
-  width: calc(100% - 20px);
-}
-
-.button {
-  margin-top: 10px;
-  background-color: #141a30;
-  width: 175px;
-}
-
-.buttons {
-  display: flex;
-  flex-direction: row;
-}
-
-.button:first-child {
-  margin-right: 10px;
-}
-
-.graphWrapper {
-  overflow: hidden;
-  width: calc(50% - 100px);
-  right: 50px;
-  top: 20px;
-}
-
-.graph {
-  background: #141a30;
-  background: linear-gradient(340deg, #000, #141a30);
-  border-radius: 30 px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 180px;
-  border-radius: 30px;
-}
-
-.packetsMetric {
-  color: white;
-  position: absolute;
-  top: 10px;
-  right: 30px;
-  text-align: right;
-}
-
-.timeMetric {
-  color: white;
-  position: absolute;
-  bottom: 10px;
-  right: 30px;
-  text-align: right;
-}
-
-.icon {
-  width: 13px;
-  margin-right: 7px;
-}
+.buttons { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.metrics { display: flex; flex-wrap: wrap; gap: 10px 20px; margin: 12px 0; }
+.metrics dt { color: #b7c5d8; font-size: 13px; }
+.metrics dd { margin: 0; font-variant-numeric: tabular-nums; }
+.error { color: #ffb8ae; }

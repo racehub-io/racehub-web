@@ -1,3 +1,1 @@
-import Canvas from "./Canvas.container";
-
-export { Canvas };
+export { Canvas } from "./Canvas";

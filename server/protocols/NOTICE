@@ -1,0 +1,12 @@
+iracing.proto comes from racehub-io/racehub-iracing-udp.
+The recorded contributors are Jony Bursztyn and Michael Sansoni.
+RaceHub applies CC0 only to rights it owns. See ../../LICENSING.md and ../../LICENSES/CC0-1.0.txt.
+iRacing and its telemetry interface keep their own terms.
+
+rfactor2.proto comes from racehub-io/rfactor2-udp-broadcaster.
+Keep the MIT notice for Peter Gray in LICENSE.rfactor2.
+The rFactor 2 SDK is external. Its terms still apply.
+
+Protocol source:
+https://github.com/racehub-io/racehub-iracing-udp/blob/main/racehub_iracing_udp/iracing_message.proto
+https://github.com/racehub-io/rfactor2-udp-broadcaster/blob/main/rFactor2UdpBroadcaster/telemetry.proto

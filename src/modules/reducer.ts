@@ -1,12 +1,9 @@
 import { combineReducers } from 'redux';
-import { connectRouter } from 'connected-react-router';
-import { History } from 'history';
 import { raceReducer as race } from './race';
 
-export function createRootReducer(history: History) {
+export function createRootReducer() {
   return combineReducers({
     race,
-    router: connectRouter(history),
   });
 }
 

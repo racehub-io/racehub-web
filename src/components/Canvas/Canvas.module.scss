@@ -1,57 +1,11 @@
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.column {
-}
-
-.alpha {
-  width: 600px;
-  position: fixed;
-  z-index: 100;
-  left: calc(50% - 300px);
-  top: calc(50% - 133px);
+.toolbar {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
   align-items: center;
-  background-color: #141a30;
-  border-radius: 10px;
-  flex-direction: column;
-  height: 266px;
-  color: white;
+  gap: 12px;
+  padding: 8px 16px;
+  color: #c4cce1;
+  font-size: 13px;
+  button { cursor: pointer; padding: 6px 10px; }
 }
-
-.loadRHCMessage {
-  cursor: default;
-  opacity: 0.75;
-  width: 200px;
-  height: 200px;
-  color: white;
-  display: flex;
-  font-family: "Kanit";
-  position: absolute;
-  text-align: center;
-  top: calc(50% - 100px);
-  left: calc(50% - 100px);
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-
-  .icon {
-    width: 35px;
-    height: 35px;
-    margin-bottom: 15px;
-  }
-
-  .loadingIcon {
-    animation-name: spin;
-    animation-duration: 1500ms;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-  }
-}
+.panel { min-width: 0; }

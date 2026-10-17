@@ -20,19 +20,6 @@ import {
   RECORDER_STATUS,
 } from "../modules/race/actions";
 import { Lap, Session } from "../types";
-import firebase from "firebase";
-
-export enum UploadStatus {
-  NotStarted = 0,
-  Starting,
-  Uploading,
-  Parsing,
-}
-
-interface RootState {
-  dispatch: React.Dispatch<any>;
-  state: State;
-}
 
 export interface SelectedLaps {
   [lapId: string]: Lap;
@@ -43,11 +30,12 @@ export interface SelectedLapsColors {
 }
 
 interface State {
+  analysisAxis: "distance" | "time";
   selectedSession?: Session;
   selectedLaps: SelectedLaps;
   selectedLapsColors: SelectedLapsColors;
   isParsing: boolean;
-  user?: firebase.User;
+  user?: { uid?: string; displayName?: string; email?: string; photoURL?: string };
   participants: any;
   domain: any;
   tooltipCoordinate: any;
@@ -58,6 +46,7 @@ interface State {
 }
 
 export const initialState: State = {
+  analysisAxis: "distance",
   selectedSession: undefined,
   selectedLaps: {},
   selectedLapsColors: {},
@@ -74,13 +63,52 @@ export const initialState: State = {
 
 export function UIReducer(state: State, action: any): any {
   switch (action.type) {
+    case "SET_ANALYSIS_AXIS": {
+      return { ...state, analysisAxis: action.axis === "time" ? "time" : "distance",
+        domain: undefined, tooltipCoordinate: undefined };
+    }
     case WS_NEW_STATUS: {
       return { ...state, wsStatus: action.wsStatus };
     }
 
     case SELECT_SESSION: {
       const { session } = action;
-      return { ...state, selectedSession: session };
+      const laps: Lap[] = session?.localLaps || [];
+      const firstLap = laps.find((lap: Lap) => lap.isComplete && lap.isValid) || (action.live ? laps[laps.length - 1] : undefined);
+      if (action.live && session?.uniqueSessionId === state.selectedSession?.uniqueSessionId) {
+        const selectedLaps: SelectedLaps = {};
+        for (const lap of laps) if (state.selectedLaps[lap.lapId]) selectedLaps[lap.lapId] = lap;
+        if (!Object.keys(selectedLaps).length && firstLap) selectedLaps[firstLap.lapId] = firstLap;
+        const primaryLapId = state.primaryLapId && selectedLaps[state.primaryLapId]
+          ? state.primaryLapId : Object.keys(selectedLaps)[0];
+        return { ...state, selectedSession: session, selectedLaps, primaryLapId,
+          selectedLapsColors: { ...(firstLap ? { [firstLap.lapId]: "#67e8b1" } : {}), ...state.selectedLapsColors } };
+      }
+      const selectedLaps: SelectedLaps = {};
+      const selectedLapsColors: SelectedLapsColors = {};
+      const saved = action.selection;
+      if (Array.isArray(saved?.lapIds)) {
+        for (const lap of laps) if (saved.lapIds.includes(lap.lapId)) {
+          selectedLaps[lap.lapId] = lap;
+          const color = saved.colors?.[lap.lapId];
+          selectedLapsColors[lap.lapId] = typeof color === "string" && /^#[0-9a-f]{6}$/i.test(color) ? color : "#67e8b1";
+        }
+      }
+      if (!Object.keys(selectedLaps).length && firstLap) {
+        selectedLaps[firstLap.lapId] = firstLap;
+        selectedLapsColors[firstLap.lapId] = "#67e8b1";
+      }
+      return {
+        ...state,
+        selectedSession: session,
+        selectedLaps,
+        selectedLapsColors,
+        primaryLapId: selectedLaps[saved?.primaryLapId] ? saved.primaryLapId : Object.keys(selectedLaps)[0],
+        analysisAxis: saved?.axis === "time" || saved?.axis === "distance" ? saved.axis : state.analysisAxis,
+        primarySelectedLap: {},
+        domain: undefined,
+        tooltipCoordinate: undefined,
+      };
     }
 
     case DOMAIN_SELECTION: {
@@ -122,11 +150,9 @@ export function UIReducer(state: State, action: any): any {
     }
 
     case SELECT_PRIMARY_LAP: {
-      if (state.primaryLapId === action.primaryLapId) {
-        return { ...state, primaryLapId: undefined };
-      }
-
-      return { ...state, primaryLapId: action.primaryLapId };
+      return state.selectedLaps[action.primaryLapId]
+        ? { ...state, primaryLapId: action.primaryLapId }
+        : state;
     }
 
     case TRIGGER_TOOLTIP: {
@@ -145,7 +171,7 @@ export function UIReducer(state: State, action: any): any {
         let newState = { ...state, selectedLaps };
 
         if (state.primaryLapId === lap.lapId) {
-          newState.primaryLapId = undefined;
+          newState.primaryLapId = Object.keys(selectedLaps)[0];
         }
 
         return newState;
@@ -160,7 +186,7 @@ export function UIReducer(state: State, action: any): any {
         selectedLaps: { ...state.selectedLaps, [lap.lapId]: lap },
         selectedLapsColors: {
           ...state.selectedLapsColors,
-          [lap.lapId]: "white",
+          [lap.lapId]: ["#67e8b1", "#ffbf69", "#79b8ff", "#e9a7ff", "#ff8a95"][Object.keys(state.selectedLaps).length % 5],
         },
       };
 
@@ -216,6 +242,14 @@ export const UIContext = React.createContext({
 
 export function UIProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = React.useReducer(UIReducer, initialState);
+  React.useEffect(() => {
+    const id = state.selectedSession?.uniqueSessionId;
+    if (!id || id.startsWith("live-")) return;
+    try {
+      localStorage.setItem(`racehub:selection:${id}`, JSON.stringify({ lapIds: Object.keys(state.selectedLaps),
+        colors: state.selectedLapsColors, primaryLapId: state.primaryLapId, axis: state.analysisAxis }));
+    } catch { /* Session files remain available when preference storage is full. */ }
+  }, [state.selectedSession, state.selectedLaps, state.selectedLapsColors, state.primaryLapId, state.analysisAxis]);
   return (
     <UIContext.Provider value={{ state, dispatch }}>
       {children}

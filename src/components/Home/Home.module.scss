@@ -1,6 +1,6 @@
-@import "styles/colors.scss";
-@import "styles/scrimgradient.scss";
-@import "styles/unstyler.scss";
+@use "styles/colors.scss" as *;
+@use "styles/scrimgradient.scss" as *;
+@use "styles/unstyler.scss" as *;
 
 .bannerWrapper {
   height: 100vh;
@@ -198,3 +198,16 @@ Tablet: 768 x 1024
 Laptop: 1366 x 768
 High-res laptop or desktop: 1920 x 1080
 */
+
+.localHome {
+  max-width: 850px; margin: 0 auto; padding: 64px 24px;
+  color: #eef2ff; line-height: 1.7;
+  h1 { font-size: clamp(2.5rem, 8vw, 5rem); line-height: 1.1; }
+  h2 { margin-top: 48px; }
+  a { color: #67e8b1; }
+}
+.eyebrow { color: #67e8b1; letter-spacing: 0.12em; }
+.openAnalyser {
+  display: inline-block; margin-top: 24px; padding: 12px 22px;
+  background: #172a36; border: 1px solid #67e8b1; border-radius: 6px;
+}
